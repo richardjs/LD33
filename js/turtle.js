@@ -2,6 +2,8 @@
 
 var IMAGE_TURTLE = document.getElementById('IMAGE_TURTLE');
 
+var TURTLE_SPEED = 100;
+
 function Turtle(){
 	this.pos = {
 		x: 140,
@@ -21,6 +23,20 @@ Turtle.prototype.update = function(delta){
 	}
 	if(world.bricks[footTile.x][footTile.y]){
 		this.pos.y = footTile.y*GAME_TILE_SIZE - this.image.height/2;
+	}
+
+	// Move left and right
+	if(controller.buttons.left){
+		this.pos.x -= TURTLE_SPEED * delta/1000;
+		if(this.pos.x - this.image.width/2 < 0){
+			this.pos.x = this.image.width/2
+		}
+	}
+	if(controller.buttons.right){
+		this.pos.x += TURTLE_SPEED * delta/1000;
+		if(this.pos.x + this.image.width/2 > canvas.width){
+			this.pos.x = canvas.width - this.image.width/2;
+		}
 	}
 }
 
