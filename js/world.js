@@ -2,6 +2,12 @@
 
 var IMAGE_BRICK = document.getElementById('IMAGE_BRICK');
 
+var WORLD_PROTAGONIST_SPAWN_DELAY = 20000;
+var WORLD_PROTAGONIST_MIN_SPAWN_INTERVAL = 5000;
+var WORLD_PROTAGONIST_MAX_SPAWN_INTERVAL = 10000;
+// Spawn more protagonists if the player's kill rate is above this fraction
+var WORLD_PROTAGONIST_SPAWN_SCORE = .5;
+
 function World(){
 	this.entities = [];
 
@@ -12,6 +18,12 @@ function World(){
 	}
 	// List of bricks, for rendering
 	this.brickList = [];
+
+	this.protagonistSuccesses = 0;
+	this.protagonistFails = 0;
+
+	this.protagonistSpawnDelayTimer = 0;
+	this.protagonistSpawnTimer = 0;
 }
 
 World.prototype.addBrick = function(pos){
@@ -47,16 +59,54 @@ World.prototype.getGroundAt = function(x){
 	}
 }
 
+World.prototype.addProtagonist = function(){
+	if(this.protagonistPool.length){
+		this.entities.push(this.protagonistPool.pop());
+	}
+}
+
 World.prototype.update = function(delta){
 	this.entities.update(delta);
+
+	if(this.protagonistPool){
+		if(this.protagonistSpawnDelayTimer < WORLD_PROTAGONIST_SPAWN_DELAY){
+			this.protagonistSpawnDelayTimer += delta;
+		}else{
+			if(this.protagonistSpawnTimer <= 0){
+				if(this.protagonistSuccesses+this.protagonistFails > 0
+						&& this.protagonistFails / (this.protagonistSuccesses+this.protagonistFails) > WORLD_PROTAGONIST_SPAWN_SCORE){
+					var count = Math.floor(this.entities.length/3) + 1;
+					console.log('spawning ' + count);
+					for(var i = 0; i < count; i++){
+						this.addProtagonist();
+					}
+				}
+				this.protagonistSpawnTimer = randomRange(WORLD_PROTAGONIST_MIN_SPAWN_INTERVAL, WORLD_PROTAGONIST_MAX_SPAWN_INTERVAL);
+			}
+			this.protagonistSpawnTimer -= delta;
+		}
+
+		var total = this.protagonistSuccesses+this.protagonistFails;
+		if(total > 50){
+			this.protagonistSuccesses = 50 * this.protagonistSuccesses/total;
+			this.protagonistFails = 50 * this.protagonistFails/total;
+		}
+	}
 }
 
 World.prototype.protagonistFinish = function(){
-	//world.entities.push(new Protagonist());
+	this.protagonistSuccesses++;
 }
 
-World.prototype.protagonistKill = function(){
-	world.entities.push(new Protagonist());
+World.prototype.protagonistKill = function(protagonist){
+	this.protagonistFails++;
+	this.entities.remove(protagonist);
+	if(!this.protagonistPool){
+		this.entities.push(new Protagonist());
+	}else{
+		this.protagonistPool.unshift(protagonist);
+		this.addProtagonist();
+	}
 }
 
 World.prototype.renderBricks = function(){

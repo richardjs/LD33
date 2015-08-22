@@ -47,7 +47,7 @@ function generateLevel(){
 	for(var x = 0; x < GAME_WIDTH; x++){
 		for(var y = 0; y < GAME_HEIGHT; y++){
 			if(Math.random() < LEVEL_RANDOM_PLACE_CHANCE){
-				world.addBrick({x: x, y: y});
+				//world.addBrick({x: x, y: y});
 			}
 		}
 	}

@@ -123,14 +123,10 @@ Protagonist.prototype.update = function(delta){
 
 	if(!this.onGround()){
 		this.image = IMAGE_PROTAGONIST_WALK;
-	}else{
-		if(this.velocity.x === 0){
-			this.image = IMAGE_PROTAGONIST;
-		}
 	}
 }
 
 Protagonist.prototype.kill = function(){
-	world.entities.remove(this);
-	world.protagonistKill();
+	world.protagonistKill(this);
+	this.reset();
 }
