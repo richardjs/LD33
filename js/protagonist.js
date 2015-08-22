@@ -1,6 +1,7 @@
 'use strict';
 
 var IMAGE_PROTAGONIST = document.getElementById('IMAGE_PROTAGONIST');
+var IMAGE_PROTAGONIST_WALK = document.getElementById('IMAGE_PROTAGONIST_WALK');
 
 var PROTAGONIST_VELOCITY_MIN = 125;
 var PROTAGONIST_VELOCITY_MAX = 250;
@@ -8,6 +9,9 @@ var PROTAGONIST_JUMP_VELOCITY_MIN = 300;
 var PROTAGONIST_JUMP_VELOCITY_MAX = 500;
 var PROTAGONIST_JUMP_DISTANCE_MIN = 25;
 var PROTAGONIST_JUMP_DISTANCE_MAX = 350
+
+var PROTAGONIST_ANIMATION_MAX_INTERVAL = 250;
+var PROTAGONIST_ANIMATION_MIN_INTERVAL = 50;
 
 var PROTAGONIST_RANDOM_JUMP_INTERVAL = 250;
 
@@ -23,6 +27,9 @@ function Protagonist(){
 	this.jumpDistance = randomRange(PROTAGONIST_JUMP_DISTANCE_MIN, PROTAGONIST_JUMP_DISTANCE_MAX);
 	this.randomJumpChance = Math.random()/4;
 	this.randomJumpTimer = 0;
+
+	this.animationInterval = PROTAGONIST_ANIMATION_MAX_INTERVAL - ((PROTAGONIST_ANIMATION_MAX_INTERVAL - PROTAGONIST_ANIMATION_MIN_INTERVAL) * (this.velocity.x - PROTAGONIST_VELOCITY_MIN)/(PROTAGONIST_VELOCITY_MAX - PROTAGONIST_VELOCITY_MIN));
+	this.animationTimer = this.animationInterval;
 }
 
 Protagonist.prototype = Object.create(Entity.prototype);
@@ -30,6 +37,8 @@ Protagonist.prototype.constructor = Protagonist;
 
 Protagonist.prototype.update = function(delta){
 	Entity.prototype.update.call(this, delta);
+
+	// Jumping
 
 	var playerDistance = world.player.pos.x - this.pos.x;
 	if(playerDistance > 0 && playerDistance < this.jumpDistance){
@@ -55,6 +64,18 @@ Protagonist.prototype.update = function(delta){
 		world.entities.remove(this);
 		world.protagonistFinish();
 	}
+
+	// Animation
+	
+	if(this.animationTimer < 0){
+		if(this.image === IMAGE_PROTAGONIST){
+			this.image = IMAGE_PROTAGONIST_WALK;
+		}else{
+			this.image = IMAGE_PROTAGONIST;
+		}
+		this.animationTimer += this.animationInterval;
+	}
+	this.animationTimer -= delta;
 }
 
 Protagonist.prototype.kill = function(){

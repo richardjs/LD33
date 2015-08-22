@@ -17,6 +17,7 @@ function World(){
 		this.addBrick({x: x, y: GAME_HEIGHT-1});
 		this.addBrick({x: x, y: GAME_HEIGHT-2});
 	}
+	this.addBrick({x: 15, y: 15});
 }
 
 World.prototype.addBrick = function(pos){
@@ -27,6 +28,14 @@ World.prototype.addBrick = function(pos){
 World.prototype.removeBrick = function(pos){
 	this.bricks[pos.x][pos.y] = false;
 	this.bricksList.remove(pos);
+}
+
+World.prototype.brickAt = function(x, y){
+	if(x < 0) x = 0;
+	if(x >= GAME_WIDTH) x = GAME_WIDTH - 1;
+	if(y < 0) y = 0;
+	if(y >= GAME_HEIGHT) y = GAME_HEIGHT - 1;
+	return this.bricks[x][y];
 }
 
 World.prototype.getGroundAt = function(x){
