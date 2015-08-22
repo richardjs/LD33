@@ -17,9 +17,9 @@ var PROTAGONIST_RANDOM_JUMP_INTERVAL = 250;
 
 function Protagonist(){
 	Entity.call(this, {
-		pos: {x: -3*GAME_TILE_SIZE, y: world.getGroundAt(0)},
-		image: IMAGE_PROTAGONIST
+		image: IMAGE_PROTAGONIST,
 	});
+	this.pos = this.getStartPos();
 
 	this.moveSpeed = randomRange(PROTAGONIST_VELOCITY_MIN, PROTAGONIST_VELOCITY_MAX);
 
@@ -34,6 +34,10 @@ function Protagonist(){
 
 Protagonist.prototype = Object.create(Entity.prototype);
 Protagonist.prototype.constructor = Protagonist;
+
+Protagonist.prototype.getStartPos = function(){
+	return {x: -3*GAME_TILE_SIZE, y: world.getGroundAt(0) - this.image.height/2};
+}
 
 Protagonist.prototype.update = function(delta){
 	this.velocity.x = this.moveSpeed;
@@ -55,6 +59,12 @@ Protagonist.prototype.update = function(delta){
 	}
 	this.randomJumpTimer -= delta;
 
+	if(this.velocity.x === 0){
+		this.jump(this.jumpVelocity);
+	}
+
+	// Collision detection
+
 	if(Math.abs(playerDistance) < this.image.width/2 + world.player.image.width/2){
 		var yDistance = Math.abs(this.pos.y - world.player.pos.y);
 		if(yDistance < this.image.height/2 + world.player.image.height/2){
@@ -62,9 +72,12 @@ Protagonist.prototype.update = function(delta){
 		}
 	}
 
+	// Made it across
+
 	if(this.pos.x -  this.image.width/2 > canvas.width){
-		world.entities.remove(this);
 		world.protagonistFinish();
+		this.pos = this.getStartPos();
+		this.velocity.y = 0;
 	}
 
 	// Animation

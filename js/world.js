@@ -53,7 +53,7 @@ World.prototype.update = function(delta){
 }
 
 World.prototype.protagonistFinish = function(){
-	world.entities.push(new Protagonist());
+	//world.entities.push(new Protagonist());
 }
 
 World.prototype.protagonistKill = function(){

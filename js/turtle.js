@@ -6,13 +6,11 @@ var TURTLE_SPEED = 125;
 var TURTLE_JUMP = 350;
 
 function Turtle(){
-	this.image = IMAGE_TURTLE;
 	this.flipImage = false;
 	Entity.call(this, {
-		pos: {x: canvas.width/2, y: world.getGroundAt(140)},
 		image: IMAGE_TURTLE
 	});
-	this.pos.y -= this.image.height/2;
+	this.pos = {x: canvas.width/2, y: world.getGroundAt(canvas.width/2) - this.image.height/2}
 }
 
 Turtle.prototype = Object.create(Entity.prototype);
