@@ -19,3 +19,11 @@ Array.prototype.remove = function(obj){
 function randomRange(min, max){
 	return Math.floor(Math.random() * (max-min)) + min
 }
+
+function randomSign(){
+	if(Math.random() < .5){
+		return -1;
+	}else{
+		return 1;
+	}
+}

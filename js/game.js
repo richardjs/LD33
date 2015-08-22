@@ -25,6 +25,8 @@ window.addEventListener('load', function(){
 	window.ctx = canvas.getContext('2d');
 
 	window.world = new World();
+	generateLevel();
+
 	window.controller = new Controller();
 
 	world.player = new Turtle();

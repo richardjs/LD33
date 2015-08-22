@@ -11,24 +11,23 @@ function World(){
 		this.bricks.push([]);
 	}
 	// List of bricks, for rendering
-	this.bricksList = [];
-
-	for(var x = 0; x < GAME_WIDTH; x++){
-		this.addBrick({x: x, y: GAME_HEIGHT-1});
-		this.addBrick({x: x, y: GAME_HEIGHT-2});
-	}
-	this.addBrick({x: 5, y: GAME_HEIGHT-3});
-	this.addBrick({x: 15, y: 15});
+	this.brickList = [];
 }
 
 World.prototype.addBrick = function(pos){
 	this.bricks[pos.x][pos.y] = true;
-	this.bricksList.push(pos);
+	this.brickList.push(pos);
 }
 
 World.prototype.removeBrick = function(pos){
 	this.bricks[pos.x][pos.y] = false;
-	this.bricksList.remove(pos);
+	var newList = [];
+	for(var i = 0; i < this.brickList.length; i++){
+		if(this.brickList[i].x !== pos.x || this.brickList[i].y !== pos.y){
+			newList.push(this.brickList[i]);
+		}
+	}
+	this.brickList = newList;
 }
 
 World.prototype.brickAt = function(x, y){
@@ -42,7 +41,7 @@ World.prototype.brickAt = function(x, y){
 World.prototype.getGroundAt = function(x){
 	var tileX = Math.floor(x/30);
 	for(var tileY = GAME_HEIGHT - 1; tileY > 0; tileY--){
-		if(!this.bricks[tileX][tileY]){
+		if(!this.brickAt(tileX, tileY)){
 			return (tileY+1)*GAME_TILE_SIZE - 1;
 		}
 	}
@@ -61,8 +60,8 @@ World.prototype.protagonistKill = function(){
 }
 
 World.prototype.renderBricks = function(){
-	for(var i = 0; i < this.bricksList.length; i++){
-		var pos = this.bricksList[i];
+	for(var i = 0; i < this.brickList.length; i++){
+		var pos = this.brickList[i];
 		ctx.drawImage(IMAGE_BRICK, GAME_TILE_SIZE*pos.x, GAME_TILE_SIZE*pos.y);
 	}
 }

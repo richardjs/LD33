@@ -6,12 +6,12 @@ var IMAGE_PROTAGONIST_WALK = document.getElementById('IMAGE_PROTAGONIST_WALK');
 var PROTAGONIST_VELOCITY_MIN = 125;
 var PROTAGONIST_VELOCITY_MAX = 250;
 var PROTAGONIST_JUMP_VELOCITY_MIN = 300;
-var PROTAGONIST_JUMP_VELOCITY_MAX = 500;
+var PROTAGONIST_JUMP_VELOCITY_MAX = 650;
 var PROTAGONIST_JUMP_DISTANCE_MIN = 60;
 var PROTAGONIST_JUMP_DISTANCE_MAX = 350
 
-var PROTAGONIST_ANIMATION_MAX_INTERVAL = 250;
 var PROTAGONIST_ANIMATION_MIN_INTERVAL = 50;
+var PROTAGONIST_ANIMATION_MAX_INTERVAL = 250;
 
 var PROTAGONIST_RANDOM_JUMP_INTERVAL = 250;
 
@@ -63,6 +63,10 @@ Protagonist.prototype.update = function(delta){
 		this.jump(this.jumpVelocity);
 	}
 
+	if(world.getGroundAt(this.pos.x + GAME_TILE_SIZE) === canvas.height - 1){
+		this.jump(this.jumpVelocity);
+	}
+
 	// Collision detection
 
 	if(Math.abs(playerDistance) < this.image.width/2 + world.player.image.width/2){
@@ -70,6 +74,12 @@ Protagonist.prototype.update = function(delta){
 		if(yDistance < this.image.height/2 + world.player.image.height/2){
 			this.kill();
 		}
+	}
+
+	// Falling death
+	
+	if(this.pos.y - this.image.height/2 > canvas.height){
+		this.kill();
 	}
 
 	// Made it across
