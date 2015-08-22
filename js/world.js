@@ -1,6 +1,6 @@
 'use strict';
 
-IMAGE_BRICK = document.getElementById('IMAGE_BRICK');
+var IMAGE_BRICK = document.getElementById('IMAGE_BRICK');
 
 function World(){
 	this.entities = [];
