@@ -1,3 +1,25 @@
+Thematic goal:
+Power trip of platformer minion getting power ups, modifying the level, and
+defeating numerous players in a row.
+
+Mechanic goal:
+Kill as many players as you can in each wave.
+
+Ultimate goal:
+Is there one? Or just sandbox mode, w/ AI getting better each round.
+
+Game flow:
+1) Buildling--construct/deconstruct brick
+2) Demonstrate you can beat it (also give the AI a baseline to work off of)
+3) Play! Players run through, you try to stop them. (Control the number of
+players? Pure sandbox then?)
+4) Upgrade--based on players defeated, upgrade your abilities?
+
+
+
+
+
+
 =You are the Monster=
 
 how can it not be this dark, opressive, be a horrible monster game?
