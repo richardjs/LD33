@@ -2,7 +2,7 @@
 
 var IMAGE_TURTLE = document.getElementById('IMAGE_TURTLE');
 
-var TURTLE_SPEED = 100;
+var TURTLE_SPEED = 125;
 
 function Turtle(){
 	this.image = IMAGE_TURTLE;
@@ -30,10 +30,7 @@ Turtle.prototype.update = function(delta){
 
 	// Jump
 	if(controller.buttons.jump){
-		var testY = Math.floor((this.pos.y + this.image.height/2 + 1)/GAME_TILE_SIZE);
-		if(world.bricks[Math.floor(this.pos.x/GAME_TILE_SIZE)][testY]){
-			this.velocity.y = -350;
-		}
+		this.jump(350);
 	}
 
 	Entity.prototype.update.call(this, delta);

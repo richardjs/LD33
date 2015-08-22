@@ -16,7 +16,7 @@ Entity.prototype.update = function(delta){
 		x: Math.floor(this.pos.x / GAME_TILE_SIZE),
 		y: Math.floor((this.pos.y + this.image.height/2) / GAME_TILE_SIZE)
 	}
-	if(world.bricks[footTile.x][footTile.y]){
+	if(!world.bricks[footTile.x] || world.bricks[footTile.x][footTile.y]){
 		this.pos.y = footTile.y*GAME_TILE_SIZE - this.image.height/2;
 		if(this.velocity.y > 0){
 			this.velocity.y = 0;
@@ -25,6 +25,14 @@ Entity.prototype.update = function(delta){
 
 	this.pos.x += this.velocity.x * delta/1000;
 	this.pos.y += this.velocity.y * delta/1000;
+}
+
+Entity.prototype.jump = function(velocity){
+	var testY = Math.floor((this.pos.y + this.image.height/2 + 1)/GAME_TILE_SIZE);
+
+	if(world.bricks[Math.floor(this.pos.x/GAME_TILE_SIZE)][testY]){
+		this.velocity.y = -velocity;
+	}
 }
 
 Entity.prototype.render = function(){
