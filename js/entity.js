@@ -104,10 +104,16 @@ Entity.prototype.update = function(delta){
 	*/
 }
 
+Entity.prototype.onGround = function(){
+	var tileX = Math.floor(this.pos.x/GAME_TILE_SIZE);
+	var testY = Math.floor((this.pos.y + this.image.height/2 + 1)/GAME_TILE_SIZE);
+	return world.brickAt(tileX, testY);
+}
+
 Entity.prototype.jump = function(velocity){
 	var tileX = Math.floor(this.pos.x/GAME_TILE_SIZE);
 	var testY = Math.floor((this.pos.y + this.image.height/2 + 1)/GAME_TILE_SIZE);
-	if(world.brickAt(tileX, testY)){
+	if(this.onGround()){
 		this.velocity.y = -velocity;
 	}
 }

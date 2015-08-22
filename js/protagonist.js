@@ -76,6 +76,10 @@ Protagonist.prototype.update = function(delta){
 		this.animationTimer += this.animationInterval;
 	}
 	this.animationTimer -= delta;
+
+	if(!this.onGround()){
+		this.image = IMAGE_PROTAGONIST_WALK;
+	}
 }
 
 Protagonist.prototype.kill = function(){
