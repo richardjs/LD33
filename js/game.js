@@ -41,6 +41,10 @@ window.addEventListener('load', function(){
 		var delta = time - lastTime;
 		lastTime = time;
 
+		while(delta > 50){
+			world.update(50);
+			delta -= 50;
+		}
 		world.update(delta);
 		world.render();
 
