@@ -17,6 +17,7 @@ function World(){
 		this.addBrick({x: x, y: GAME_HEIGHT-1});
 		this.addBrick({x: x, y: GAME_HEIGHT-2});
 	}
+	this.addBrick({x: 5, y: GAME_HEIGHT-3});
 	this.addBrick({x: 15, y: 15});
 }
 
@@ -42,7 +43,7 @@ World.prototype.getGroundAt = function(x){
 	var tileX = Math.floor(x/30);
 	for(var tileY = GAME_HEIGHT - 1; tileY > 0; tileY--){
 		if(!this.bricks[tileX][tileY]){
-			return (tileY+1)*GAME_TILE_SIZE;
+			return (tileY+1)*GAME_TILE_SIZE - 1;
 		}
 	}
 }

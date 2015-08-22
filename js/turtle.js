@@ -12,6 +12,7 @@ function Turtle(){
 		pos: {x: canvas.width/2, y: world.getGroundAt(140)},
 		image: IMAGE_TURTLE
 	});
+	this.pos.y -= this.image.height/2;
 }
 
 Turtle.prototype = Object.create(Entity.prototype);

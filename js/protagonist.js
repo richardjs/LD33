@@ -7,7 +7,7 @@ var PROTAGONIST_VELOCITY_MIN = 125;
 var PROTAGONIST_VELOCITY_MAX = 250;
 var PROTAGONIST_JUMP_VELOCITY_MIN = 300;
 var PROTAGONIST_JUMP_VELOCITY_MAX = 500;
-var PROTAGONIST_JUMP_DISTANCE_MIN = 25;
+var PROTAGONIST_JUMP_DISTANCE_MIN = 60;
 var PROTAGONIST_JUMP_DISTANCE_MAX = 350
 
 var PROTAGONIST_ANIMATION_MAX_INTERVAL = 250;
@@ -21,14 +21,14 @@ function Protagonist(){
 		image: IMAGE_PROTAGONIST
 	});
 
-	this.velocity.x = randomRange(PROTAGONIST_VELOCITY_MIN, PROTAGONIST_VELOCITY_MAX);
+	this.moveSpeed = randomRange(PROTAGONIST_VELOCITY_MIN, PROTAGONIST_VELOCITY_MAX);
 
 	this.jumpVelocity = randomRange(PROTAGONIST_JUMP_VELOCITY_MIN, PROTAGONIST_JUMP_VELOCITY_MAX);
 	this.jumpDistance = randomRange(PROTAGONIST_JUMP_DISTANCE_MIN, PROTAGONIST_JUMP_DISTANCE_MAX);
 	this.randomJumpChance = Math.random()/4;
 	this.randomJumpTimer = 0;
 
-	this.animationInterval = PROTAGONIST_ANIMATION_MAX_INTERVAL - ((PROTAGONIST_ANIMATION_MAX_INTERVAL - PROTAGONIST_ANIMATION_MIN_INTERVAL) * (this.velocity.x - PROTAGONIST_VELOCITY_MIN)/(PROTAGONIST_VELOCITY_MAX - PROTAGONIST_VELOCITY_MIN));
+	this.animationInterval = PROTAGONIST_ANIMATION_MAX_INTERVAL - ((PROTAGONIST_ANIMATION_MAX_INTERVAL - PROTAGONIST_ANIMATION_MIN_INTERVAL) * (this.moveSpeed - PROTAGONIST_VELOCITY_MIN)/(PROTAGONIST_VELOCITY_MAX - PROTAGONIST_VELOCITY_MIN));
 	this.animationTimer = this.animationInterval;
 }
 
@@ -36,6 +36,8 @@ Protagonist.prototype = Object.create(Entity.prototype);
 Protagonist.prototype.constructor = Protagonist;
 
 Protagonist.prototype.update = function(delta){
+	this.velocity.x = this.moveSpeed;
+
 	Entity.prototype.update.call(this, delta);
 
 	// Jumping
@@ -79,6 +81,10 @@ Protagonist.prototype.update = function(delta){
 
 	if(!this.onGround()){
 		this.image = IMAGE_PROTAGONIST_WALK;
+	}else{
+		if(this.velocity.x === 0){
+			this.image = IMAGE_PROTAGONIST;
+		}
 	}
 }
 
