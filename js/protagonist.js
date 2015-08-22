@@ -15,6 +15,8 @@ var PROTAGONIST_ANIMATION_MAX_INTERVAL = 250;
 
 var PROTAGONIST_RANDOM_JUMP_INTERVAL = 250;
 
+var PROTAGONIST_STUCK_DELAY = 10*1000;
+
 function Protagonist(){
 	Entity.call(this, {
 		image: IMAGE_PROTAGONIST,
@@ -30,6 +32,8 @@ function Protagonist(){
 
 	this.animationInterval = PROTAGONIST_ANIMATION_MAX_INTERVAL - ((PROTAGONIST_ANIMATION_MAX_INTERVAL - PROTAGONIST_ANIMATION_MIN_INTERVAL) * (this.moveSpeed - PROTAGONIST_VELOCITY_MIN)/(PROTAGONIST_VELOCITY_MAX - PROTAGONIST_VELOCITY_MIN));
 	this.animationTimer = this.animationInterval;
+
+	this.stuckTimer = 0;
 }
 
 Protagonist.prototype = Object.create(Entity.prototype);
@@ -39,6 +43,11 @@ Protagonist.prototype.getStartPos = function(){
 	return {x: -3*GAME_TILE_SIZE, y: world.getGroundAt(0) - this.image.height/2};
 }
 
+Protagonist.prototype.reset = function(){
+	this.pos = this.getStartPos();
+	this.velocity.y = 0;
+}
+
 Protagonist.prototype.update = function(delta){
 	this.velocity.x = this.moveSpeed;
 
@@ -46,9 +55,11 @@ Protagonist.prototype.update = function(delta){
 
 	// Jumping
 
-	var playerDistance = world.player.pos.x - this.pos.x;
-	if(playerDistance > 0 && playerDistance < this.jumpDistance){
-		this.jump(this.jumpVelocity);
+	if(world.player){
+		var playerDistance = world.player.pos.x - this.pos.x;
+		if(playerDistance > 0 && playerDistance < this.jumpDistance){
+			this.jump(this.jumpVelocity);
+		}
 	}
 
 	if(this.randomJumpTimer <= 0){
@@ -68,26 +79,34 @@ Protagonist.prototype.update = function(delta){
 	}
 
 	// Collision detection
-
-	if(Math.abs(playerDistance) < this.image.width/2 + world.player.image.width/2){
-		var yDistance = Math.abs(this.pos.y - world.player.pos.y);
-		if(yDistance < this.image.height/2 + world.player.image.height/2){
-			this.kill();
+	if(world.player){
+		if(Math.abs(playerDistance) < this.image.width/2 + world.player.image.width/2){
+			var yDistance = Math.abs(this.pos.y - world.player.pos.y);
+			if(yDistance < this.image.height/2 + world.player.image.height/2){
+				this.kill();
+			}
 		}
 	}
 
 	// Falling death
-	
 	if(this.pos.y - this.image.height/2 > canvas.height){
 		this.kill();
 	}
 
-	// Made it across
+	// Stuck Death
+	if(this.velocity.x = 0){
+		this.stuckTimer += delta;
+		if(this.stuckTimer > PROTAGONIST_STUCK_DELAY){
+			this.kill();
+		}
+	}else{
+		this.stuckTimer = 0;
+	}
 
+	// Made it across
 	if(this.pos.x -  this.image.width/2 > canvas.width){
 		world.protagonistFinish();
-		this.pos = this.getStartPos();
-		this.velocity.y = 0;
+		this.reset();
 	}
 
 	// Animation
