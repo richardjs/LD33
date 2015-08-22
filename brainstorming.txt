@@ -1,0 +1,69 @@
+=You are the Monster=
+
+how can it not be this dark, opressive, be a horrible monster game?
+
+what are monsters?
+*	vampires
+*	werewolves
+*	minions from Zelda/Mario/whatever
+*	zombies
+*	creepers (ha)
+
+You are the monster, but must do something good?
+"Oh no, I ate the hero. Now I must be the hero."
+
+Monster under the bed.
+other places with monsters?
+*	Loch Ness
+*	Bigfoot
+
+arcade games reversed
+*	pacman
+*	missile command
+*	grue/wumpus
+
+
+*	maze game where you're hunting people in the maze
+
+Monsters in games:
+obstacles
+antagonists
+something to be jumped on/killed
+
+
+top down arcade
+first person
+puzzle
+rpg
+action
+building things
+tactical/strategy game where you're monsters stopping a adventurer/group of adventurers
+platformer
+
+actual ideas:
+	ghosts in pacman (how to make it interesting)
+	tactical/strategy game where you're monsters stopping a adventurer/group of adventurers
+
+stop the platform player from getting by
+resources
+	place blocks or something (a la some tower defense)
+	action component (hit him, don't let him jump on you)
+	upgrade your abilities (get different weapons i.e. hammers)
+disadvantages
+	ART
+	balance? (how to stop form building a wall they can't jump over)
+	AI work (too ambitious)
+	abstract concept--have to figure out a lot of things
+advantages
+	it sounds interesting
+
+components:
+	building/construction/tower defense
+	action (constrained, only walk, jump, etc.)
+	sandbox
+goal?
+	stop players from going through?
+	see how many you can stop in a time period?
+	open-ended?
+	challenge/puzzle? (stop them with these constraints?)
+
