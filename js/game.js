@@ -4,6 +4,8 @@ var GAME_TILE_SIZE = 30;
 var GAME_WIDTH = 35;
 var GAME_HEIGHT = 20;
 
+var GRAVITY = 500;
+
 window.addEventListener('load', function(){
 	window.canvas = document.createElement('canvas');
 	document.body.appendChild(canvas);
