@@ -11,7 +11,7 @@ var PROTAGONIST_JUMP_DISTANCE_MAX = 350
 
 function Protagonist(){
 	Entity.call(this, {
-		pos: {x: -50, y: world.getGroundAt(0)},
+		pos: {x: -3*GAME_TILE_SIZE, y: world.getGroundAt(0)},
 		image: IMAGE_PROTAGONIST
 	});
 

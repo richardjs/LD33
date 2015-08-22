@@ -13,9 +13,9 @@ function World(){
 	// List of bricks, for rendering
 	this.bricksList = [];
 
-	for(var i = 0; i < GAME_WIDTH; i++){
-		this.addBrick({x: i, y: GAME_HEIGHT-1});
-		this.addBrick({x: i, y: GAME_HEIGHT-2});
+	for(var x = 0; x < GAME_WIDTH; x++){
+		this.addBrick({x: x, y: GAME_HEIGHT-1});
+		this.addBrick({x: x, y: GAME_HEIGHT-2});
 	}
 }
 

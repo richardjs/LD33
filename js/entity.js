@@ -16,7 +16,13 @@ Entity.prototype.update = function(delta){
 		x: Math.floor(this.pos.x / GAME_TILE_SIZE),
 		y: Math.floor((this.pos.y + this.image.height/2) / GAME_TILE_SIZE)
 	}
-	if(!world.bricks[footTile.x] || world.bricks[footTile.x][footTile.y]){
+	if(footTile.x < 0){
+		footTile.x = 0;
+	}
+	if(footTile.x >= GAME_WIDTH){
+		footTile.x = GAME_WIDTH - 1;
+	}
+	if(world.bricks[footTile.x][footTile.y]){
 		this.pos.y = footTile.y*GAME_TILE_SIZE - this.image.height/2;
 		if(this.velocity.y > 0){
 			this.velocity.y = 0;
@@ -28,10 +34,15 @@ Entity.prototype.update = function(delta){
 }
 
 Entity.prototype.jump = function(velocity){
+	var tileX = Math.floor(this.pos.x/GAME_TILE_SIZE);
+	if(tileX < 0){
+		tileX = 0;
+	}
 	var testY = Math.floor((this.pos.y + this.image.height/2 + 1)/GAME_TILE_SIZE);
 
-	if(world.bricks[Math.floor(this.pos.x/GAME_TILE_SIZE)][testY]){
+	if(world.bricks[tileX][testY]){
 		this.velocity.y = -velocity;
+		console.log('jump! ' + velocity + ' from  ' + this.pos.y);
 	}
 }
 
