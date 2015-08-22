@@ -8,7 +8,7 @@ function Turtle(){
 	this.image = IMAGE_TURTLE;
 	this.flipImage = false;
 	Entity.call(this, {
-		pos: {x: 140, y: 0},
+		pos: {x: canvas.width/2, y: world.getGroundAt(140)},
 		image: IMAGE_TURTLE
 	});
 }

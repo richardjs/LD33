@@ -29,6 +29,15 @@ World.prototype.removeBrick = function(pos){
 	this.bricksList.remove(pos);
 }
 
+World.prototype.getGroundAt = function(x){
+	var tileX = Math.floor(x/30);
+	for(var tileY = GAME_HEIGHT - 1; tileY > 0; tileY--){
+		if(!this.bricks[tileX][tileY]){
+			return (tileY+1)*GAME_TILE_SIZE;
+		}
+	}
+}
+
 World.prototype.update = function(delta){
 	this.entities.update(delta);
 }
