@@ -3,6 +3,7 @@
 var IMAGE_TURTLE = document.getElementById('IMAGE_TURTLE');
 
 var TURTLE_SPEED = 125;
+var TURTLE_JUMP = 350;
 
 function Turtle(){
 	this.image = IMAGE_TURTLE;
@@ -30,7 +31,7 @@ Turtle.prototype.update = function(delta){
 
 	// Jump
 	if(controller.buttons.jump){
-		this.jump(350);
+		this.jump(TURTLE_JUMP);
 	}
 
 	Entity.prototype.update.call(this, delta);

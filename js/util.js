@@ -15,3 +15,7 @@ Array.prototype.render = function(){
 Array.prototype.remove = function(obj){
 	this.splice(this.indexOf(obj), 1);
 }
+
+function randomRange(min, max){
+	return Math.floor(Math.random() * (max-min)) + min
+}
