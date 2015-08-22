@@ -26,3 +26,11 @@ Entity.prototype.update = function(delta){
 	this.pos.x += this.velocity.x * delta/1000;
 	this.pos.y += this.velocity.y * delta/1000;
 }
+
+Entity.prototype.render = function(){
+	ctx.drawImage(
+		this.image,
+		this.pos.x - this.image.width/2,
+		this.pos.y - this.image.height/2
+	);
+}

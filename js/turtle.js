@@ -13,7 +13,7 @@ function Turtle(){
 	});
 }
 
-Turtle.prototype = Object.create(Entity);
+Turtle.prototype = Object.create(Entity.prototype);
 Turtle.prototype.constructor = Turtle;
 
 Turtle.prototype.update = function(delta){
@@ -44,12 +44,4 @@ Turtle.prototype.update = function(delta){
 	if(this.pos.x + this.image.width/2 > canvas.width){
 		this.pos.x = canvas.width - this.image.width/2;
 	}
-}
-
-Turtle.prototype.render = function(){
-	ctx.drawImage(
-		this.image,
-		this.pos.x - this.image.width/2,
-		this.pos.y - this.image.height/2
-	);
 }

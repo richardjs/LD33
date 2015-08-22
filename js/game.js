@@ -30,6 +30,8 @@ window.addEventListener('load', function(){
 	world.player = new Turtle();
 	world.entities.push(world.player);
 
+	world.entities.push(new Protagonist());
+
 	var lastTime = null;
 	function frame(time){
 		if(lastTime === null){
