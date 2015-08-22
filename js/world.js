@@ -120,5 +120,15 @@ World.prototype.render = function(){
 	ctx.fillStyle = '#5555ff';
 	ctx.fillRect(0, 0, canvas.width, canvas.height);
 	this.renderBricks();
-	this.entities.render();
+
+	var stars = [];
+	for(var i = 0; i < this.entities.length; i++){
+		var entity = this.entities[i];
+		if(entity.star){
+			stars.push(entity);
+			continue;
+		}
+		entity.render();
+	}
+	stars.render();
 }

@@ -2,6 +2,9 @@
 
 var IMAGE_PROTAGONIST = document.getElementById('IMAGE_PROTAGONIST');
 var IMAGE_PROTAGONIST_WALK = document.getElementById('IMAGE_PROTAGONIST_WALK');
+var IMAGE_PROTAGONIST_STAR = document.getElementById('IMAGE_PROTAGONIST_STAR');
+var IMAGE_PROTAGONIST_WALK_STAR = document.getElementById('IMAGE_PROTAGONIST_WALK_STAR');
+
 
 var PROTAGONIST_VELOCITY_MIN = 125;
 var PROTAGONIST_VELOCITY_MAX = 250;
@@ -13,6 +16,10 @@ var PROTAGONIST_JUMP_DISTANCE_MAX = 350
 var PROTAGONIST_ANIMATION_MIN_INTERVAL = 50;
 var PROTAGONIST_ANIMATION_MAX_INTERVAL = 250;
 
+var PROTAGONIST_STAR_CHANCE = .01;
+var PROTAGONIST_STAR_BOOST = 100;
+var PROTAGONIST_STAR_FLASH_INTERVAL = 250;
+
 var PROTAGONIST_RANDOM_JUMP_INTERVAL = 250;
 
 var PROTAGONIST_STUCK_DELAY = 10*1000;
@@ -21,8 +28,7 @@ function Protagonist(){
 	Entity.call(this, {
 		image: IMAGE_PROTAGONIST,
 	});
-	this.pos = this.getStartPos();
-
+	this.reset();
 	this.moveSpeed = randomRange(PROTAGONIST_VELOCITY_MIN, PROTAGONIST_VELOCITY_MAX);
 
 	this.jumpVelocity = randomRange(PROTAGONIST_JUMP_VELOCITY_MIN, PROTAGONIST_JUMP_VELOCITY_MAX);
@@ -46,10 +52,19 @@ Protagonist.prototype.getStartPos = function(){
 Protagonist.prototype.reset = function(){
 	this.pos = this.getStartPos();
 	this.velocity.y = 0;
+
+	this.star = false;
+	if(Math.random() < PROTAGONIST_STAR_CHANCE){
+		this.star = true;
+		this.starFlashTimer = 0;
+	}
 }
 
 Protagonist.prototype.update = function(delta){
 	this.velocity.x = this.moveSpeed;
+	if(this.star){
+		this.velocity.x += PROTAGONIST_STAR_BOOST;
+	}
 
 	Entity.prototype.update.call(this, delta);
 
@@ -57,7 +72,7 @@ Protagonist.prototype.update = function(delta){
 
 	if(world.player){
 		var playerDistance = world.player.pos.x - this.pos.x;
-		if(playerDistance > 0 && playerDistance < this.jumpDistance){
+		if(playerDistance > 0 && playerDistance < this.jumpDistance && !this.star){
 			this.jump(this.jumpVelocity);
 		}
 	}
@@ -83,7 +98,11 @@ Protagonist.prototype.update = function(delta){
 		if(Math.abs(playerDistance) < this.image.width/2 + world.player.image.width/2){
 			var yDistance = Math.abs(this.pos.y - world.player.pos.y);
 			if(yDistance < this.image.height/2 + world.player.image.height/2){
-				this.kill();
+				if(!this.star){
+					this.kill();
+				}else{
+					world.player.kill();
+				}
 			}
 		}
 	}
@@ -112,7 +131,7 @@ Protagonist.prototype.update = function(delta){
 	// Animation
 	
 	if(this.animationTimer < 0){
-		if(this.image === IMAGE_PROTAGONIST){
+		if(this.image === IMAGE_PROTAGONIST || this.image === IMAGE_PROTAGONIST_STAR){
 			this.image = IMAGE_PROTAGONIST_WALK;
 		}else{
 			this.image = IMAGE_PROTAGONIST;
@@ -124,6 +143,15 @@ Protagonist.prototype.update = function(delta){
 	if(!this.onGround()){
 		this.image = IMAGE_PROTAGONIST_WALK;
 	}
+
+	if(this.star){// && this.starFlashTimer < 0){
+		if(this.image === IMAGE_PROTAGONIST) this.image = IMAGE_PROTAGONIST_STAR;
+		if(this.image === IMAGE_PROTAGONIST_WALK) this.image = IMAGE_PROTAGONIST_WALK_STAR;
+	}
+	if(this.starFlashTimer < -PROTAGONIST_STAR_FLASH_INTERVAL){
+		this.starFlashTimer += 2*PROTAGONIST_STAR_FLASH_INTERVAL;
+	}
+	this.starFlashTimer -= delta;
 }
 
 Protagonist.prototype.kill = function(){

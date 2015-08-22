@@ -57,3 +57,7 @@ Turtle.prototype.update = function(delta){
 		this.pos.x = canvas.width - this.image.width/2;
 	}
 }
+
+Turtle.prototype.kill = function() {
+	this.pos = this.getStartPos();
+}
