@@ -32,8 +32,20 @@ Protagonist.prototype.update = function(delta){
 		this.jump(this.jumpVelocity);
 	}
 
+	if(Math.abs(playerDistance) < this.image.width/2 + world.player.image.width/2){
+		var yDistance = Math.abs(this.pos.y - world.player.pos.y);
+		if(yDistance < this.image.height/2 + world.player.image.height/2){
+			this.kill();
+		}
+	}
+
 	if(this.pos.x -  this.image.width/2 > canvas.width){
 		world.entities.remove(this);
 		world.protagonistFinish();
 	}
+}
+
+Protagonist.prototype.kill = function(){
+	world.entities.remove(this);
+	world.protagonistKill();
 }

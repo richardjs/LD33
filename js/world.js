@@ -46,6 +46,10 @@ World.prototype.protagonistFinish = function(){
 	world.entities.push(new Protagonist());
 }
 
+World.prototype.protagonistKill = function(){
+	world.entities.push(new Protagonist());
+}
+
 World.prototype.renderBricks = function(){
 	for(var i = 0; i < this.bricksList.length; i++){
 		var pos = this.bricksList[i];

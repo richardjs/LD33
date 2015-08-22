@@ -42,7 +42,6 @@ Entity.prototype.jump = function(velocity){
 
 	if(world.bricks[tileX][testY]){
 		this.velocity.y = -velocity;
-		console.log('jump! ' + velocity + ' from  ' + this.pos.y);
 	}
 }
 
