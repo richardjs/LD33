@@ -21,4 +21,9 @@ Protagonist.prototype.update = function(delta){
 	if(playerDistance > 0 && playerDistance < 200){
 		this.jump(450);
 	}
+
+	if(this.pos.x -  this.image.width/2 > canvas.width){
+		world.entities.remove(this);
+		world.protagonistFinish();
+	}
 }
