@@ -2,6 +2,8 @@
 
 var IMAGE_BRICK = document.getElementById('IMAGE_BRICK');
 var IMAGE_BACKGROUND1 = document.getElementById('IMAGE_BACKGROUND1');
+var IMAGE_BACKGROUND2 = document.getElementById('IMAGE_BACKGROUND2');
+var IMAGE_BACKGROUND3 = document.getElementById('IMAGE_BACKGROUND3');
 
 var WORLD_PROTAGONIST_SPAWN_DELAY = 20000;
 var WORLD_PROTAGONIST_MIN_SPAWN_INTERVAL = 5000;
@@ -29,6 +31,16 @@ function World(){
 
 	this.score = 0;
 	this.killChain = 0;
+
+	var backgrounds = [
+		IMAGE_BACKGROUND1,
+		IMAGE_BACKGROUND1,
+		IMAGE_BACKGROUND1,
+		IMAGE_BACKGROUND2,
+		IMAGE_BACKGROUND3,
+		IMAGE_BACKGROUND3
+	];
+	this.background = backgrounds[Math.floor(Math.random()*backgrounds.length)];
 }
 
 World.prototype.addBrick = function(pos){
@@ -130,7 +142,7 @@ World.prototype.renderBricks = function(){
 World.prototype.render = function(){
 //	ctx.fillStyle = '#5555ff';
 //	ctx.fillRect(0, 0, canvas.width, canvas.height);
-	ctx.drawImage(IMAGE_BACKGROUND1, 0, 0);
+	ctx.drawImage(this.background, 0, 0);
 
 	this.renderBricks();
 
