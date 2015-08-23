@@ -20,6 +20,13 @@ window.addEventListener('load', function(){
 
 	canvas.width = GAME_WIDTH*GAME_TILE_SIZE;
 	canvas.height = GAME_HEIGHT*GAME_TILE_SIZE;
+
+	var margin = (window.innerHeight - canvas.height) / 3;
+	canvas.style.margin = margin + "px auto";
+	window.addEventListener('resize', function(){
+		var margin = (window.innerHeight - canvas.height) / 3;
+		canvas.style.margin = margin + "px auto";
+	});
 	
 	window.ctx = canvas.getContext('2d');
 

@@ -18,7 +18,7 @@ Turtle.prototype = Object.create(Entity.prototype);
 Turtle.prototype.constructor = Turtle;
 
 Turtle.prototype.getStartPos = function(){
-	var startX = canvas.width/2;
+	var startX = 3*canvas.width/4;
 	while(world.getGroundAt(startX) === canvas.height - 1){
 		startX += GAME_TILE_SIZE;
 	}
