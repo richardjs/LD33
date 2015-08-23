@@ -15,6 +15,12 @@ var GAME_PROTAGONIST_FINISH_PENALTY = 100;
 var GAME_TURTLE_DEATH_PENALTY = 500;
 
 window.addEventListener('load', function(){
+	window.music = new Howl({
+		urls: ['music/turtlerag.oog', 'music/turtlerag.m4a'],
+		loop: true,
+		volume: .5
+	});
+
 	window.canvas = document.createElement('canvas');
 	document.body.appendChild(canvas);
 
@@ -74,6 +80,8 @@ window.addEventListener('load', function(){
 	world.player = new Turtle();
 	world.entities.push(world.player);
 	world.addProtagonist();
+
+	music.play()
 
 	var lastTime = null;
 	function frame(time){

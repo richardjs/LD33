@@ -59,7 +59,6 @@ Turtle.prototype.update = function(delta){
 	Entity.prototype.update.call(this, delta);
 
 	if(this.invincibilityTimer > 0){
-		console.log('invincible');
 		this.invincibilityTimer -= delta;
 	}
 
