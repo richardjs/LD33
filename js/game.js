@@ -1,5 +1,7 @@
 'use strict';
 
+var IMAGE_HIGHSCORES = document.getElementById('IMAGE_HIGHSCORES');
+
 var GAME_TILE_SIZE = 30;
 var GAME_WIDTH = 35;
 var GAME_HEIGHT = 20;
@@ -29,6 +31,10 @@ window.addEventListener('load', function(){
 	
 	window.ctx = canvas.getContext('2d');
 
+	start();
+});
+
+function start(){
 	var iterations = 0;
 	do{
 		window.world = new World();
@@ -125,23 +131,23 @@ window.addEventListener('load', function(){
 	requestAnimationFrame(frame);
 
 	var volumeControl = document.getElementById('volumeControl');
+	window.volumeSlider = document.getElementById('volumeSlider');
 	volumeControl.style.marginLeft = canvas.getBoundingClientRect().left + 'px';
 	window.addEventListener('resize', function(){
 		volumeControl.style.marginLeft = canvas.getBoundingClientRect().left + 'px';
 	});
 
-	window.music = new Howl({
-		urls: ['music/turtlerag.oog', 'music/turtlerag.m4a'],
-		loop: true,
-		volume: volumeSlider.value
-	});
-	music.play();
-
+	Howler.volume(volumeSlider.value);
 	volumeControl.addEventListener('input', function(){
-		music.volume(volumeSlider.value);
+		Howler.volume(volumeSlider.value);
 	});
 	volumeSlider.addEventListener('focus', function(){
-		volumeSlider.blur();
 		canvas.focus();
 	});
-});
+
+	window.music = new Howl({
+		urls: ['music/turtlerag.oog', 'music/turtlerag.m4a'],
+		loop: true
+	});
+	music.play();
+}

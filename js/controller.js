@@ -4,6 +4,7 @@ function Controller(){
 	this.buttons = {};
 
 	window.addEventListener('keydown', function(event){
+		volumeSlider.blur();
 		switch(event.which){
 			case 37:
 			case 65:
