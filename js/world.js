@@ -6,7 +6,7 @@ var WORLD_PROTAGONIST_SPAWN_DELAY = 20000;
 var WORLD_PROTAGONIST_MIN_SPAWN_INTERVAL = 5000;
 var WORLD_PROTAGONIST_MAX_SPAWN_INTERVAL = 10000;
 // Spawn more protagonists if the player's kill rate is above this fraction
-var WORLD_PROTAGONIST_SPAWN_SCORE = .5;
+var WORLD_PROTAGONIST_SPAWN_SCORE = .80;
 
 function World(){
 	this.entities = [];
@@ -75,11 +75,7 @@ World.prototype.update = function(delta){
 			if(this.protagonistSpawnTimer <= 0){
 				if(this.protagonistSuccesses+this.protagonistFails > 0
 						&& this.protagonistFails / (this.protagonistSuccesses+this.protagonistFails) > WORLD_PROTAGONIST_SPAWN_SCORE){
-					var count = Math.floor(this.entities.length/3) + 1;
-					console.log('spawning ' + count);
-					for(var i = 0; i < count; i++){
-						this.addProtagonist();
-					}
+					this.addProtagonist();
 				}
 				this.protagonistSpawnTimer = randomRange(WORLD_PROTAGONIST_MIN_SPAWN_INTERVAL, WORLD_PROTAGONIST_MAX_SPAWN_INTERVAL);
 			}
@@ -87,9 +83,9 @@ World.prototype.update = function(delta){
 		}
 
 		var total = this.protagonistSuccesses+this.protagonistFails;
-		if(total > 50){
-			this.protagonistSuccesses = 50 * this.protagonistSuccesses/total;
-			this.protagonistFails = 50 * this.protagonistFails/total;
+		if(total > 10){
+			this.protagonistSuccesses = 10 * this.protagonistSuccesses/total;
+			this.protagonistFails = 10 * this.protagonistFails/total;
 		}
 	}
 }

@@ -4,7 +4,9 @@ var GAME_TILE_SIZE = 30;
 var GAME_WIDTH = 35;
 var GAME_HEIGHT = 20;
 
-var GRAVITY = 700;
+var GRAVITY = 800;
+
+var GAME_PROTAGONISTS = 5;
 
 window.addEventListener('load', function(){
 	window.canvas = document.createElement('canvas');
@@ -21,7 +23,7 @@ window.addEventListener('load', function(){
 		generateLevel();
 
 		// Test level
-		for(var i = 0; i < 100; i++){
+		for(var i = 0; i < GAME_PROTAGONISTS; i++){
 			world.entities.push(new Protagonist());
 		}
 		for(var t = 0; t < 5*60*1000; t += 50){
@@ -33,13 +35,9 @@ window.addEventListener('load', function(){
 		world.protagonistSuccesses = 0;
 		world.protagonistFails = 0;
 		var elapsed = 0;
-		while(world.protagonistSuccesses + world.protagonistFails < 1000){
+		while(elapsed < 10*60*1000){
 			world.update(50);
 			elapsed += 50;
-			if(elapsed > 10*60*1000){
-				console.log('could\'t finish evaluating world');
-				break;
-			}
 		}
 		
 		iterations++;
