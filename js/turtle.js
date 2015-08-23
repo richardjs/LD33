@@ -1,10 +1,19 @@
 'use strict';
 
 var IMAGE_TURTLE = document.getElementById('IMAGE_TURTLE');
+var IMAGE_TURTLE_DEAD = document.getElementById('IMAGE_TURTLE_DEAD');
+var IMAGE_TURTLE_RIGHT = document.getElementById('IMAGE_TURTLE_RIGHT');
+var IMAGE_TURTLE_RIGHT_DEAD = document.getElementById('IMAGE_TURTLE_RIGHT_DEAD');
+var IMAGE_TURTLE_WALK = document.getElementById('IMAGE_TURTLE_WALK');
+var IMAGE_TURTLE_WALK_DEAD = document.getElementById('IMAGE_TURTLE_WALK_DEAD');
+var IMAGE_TURTLE_WALK_RIGHT = document.getElementById('IMAGE_TURTLE_WALK_RIGHT');
+var IMAGE_TURTLE_WALK_RIGHT_DEAD = document.getElementById('IMAGE_TURTLE_WALK_RIGHT_DEAD');
 
 var TURTLE_SPEED = 125;
 var TURTLE_JUMP = 350;
 var TURTLE_FALL_THRESHOLD = 1000;
+
+var TURTLE_ANIMATION_INTERVAL = 100;
 
 function Turtle(){
 	this.flipImage = false;
@@ -12,6 +21,8 @@ function Turtle(){
 		image: IMAGE_TURTLE,
 	});
 	this.pos = this.getStartPos();
+
+	this.animationTimer = 0;
 }
 
 Turtle.prototype = Object.create(Entity.prototype);
@@ -32,8 +43,7 @@ Turtle.prototype.update = function(delta){
 		if(controller.buttons.left){
 			this.velocity.x = -TURTLE_SPEED;
 			this.flipImage = false;
-		}
-		if(controller.buttons.right){
+		} if(controller.buttons.right){
 			this.velocity.x = TURTLE_SPEED;
 			this.flipImage = true;
 		}
@@ -57,6 +67,36 @@ Turtle.prototype.update = function(delta){
 	if(this.pos.x + this.image.width/2 > canvas.width){
 		this.pos.x = canvas.width - this.image.width/2;
 	}
+
+	// Animation
+	
+	if(this.dead){
+		return;
+	}
+
+	if(this.velocity.x < 0){
+		this.image = IMAGE_TURTLE;
+	}else if(this.velocity.x > 0){
+		this.image = IMAGE_TURTLE_RIGHT;
+	}else{
+		if(this.image === IMAGE_TURTLE_WALK){
+			this.image = IMAGE_TURTLE;
+		}else if(this.image === IMAGE_TURTLE_WALK_RIGHT){
+			this.image = IMAGE_TURTLE_RIGHT;
+		}
+	}
+	if((this.animationTimer < 0 && (controller.buttons.left || controller.buttons.right)) || !this.onGround()){
+		if(this.image === IMAGE_TURTLE){
+			this.image = IMAGE_TURTLE_WALK;
+		}else{
+			this.image = IMAGE_TURTLE_WALK_RIGHT;
+		}
+	}
+
+	this.animationTimer -= delta;
+	if(this.animationTimer < -TURTLE_ANIMATION_INTERVAL){
+		this.animationTimer += 2*TURTLE_ANIMATION_INTERVAL;
+	}
 }
 
 Turtle.prototype.die = function(){
@@ -64,6 +104,21 @@ Turtle.prototype.die = function(){
 	this.velocity.x = 0;
 	this.velocity.y = -TURTLE_JUMP;
 	this.collideBricks = false;
+
+	switch(this.image){
+		case IMAGE_TURTLE:
+			this.image = IMAGE_TURTLE_DEAD;
+			break;
+		case IMAGE_TURTLE_WALK:
+			this.image = IMAGE_TURTLE_WALK_DEAD;
+			break;
+		case IMAGE_TURTLE_RIGHT:
+			this.image = IMAGE_TURTLE_RIGHT_DEAD;
+			break;
+		case IMAGE_TURTLE_WALK_RIGHT:
+			this.image = IMAGE_TURTLE_WALK_RIGHT_DEAD;
+			break;
+	}
 }
 
 Turtle.prototype.kill = function() {
@@ -73,4 +128,5 @@ Turtle.prototype.kill = function() {
 	this.velocity = {x: 0, y: 0};
 	world.score -= GAME_TURTLE_DEATH_PENALTY;
 	world.killChain = 0;
+	this.image = IMAGE_TURTLE;
 }
