@@ -126,7 +126,9 @@ World.prototype.protagonistKill = function(protagonist){
 	if(!this.protagonistPool){
 		this.entities.push(new Protagonist());
 	}else{
-		this.protagonistsKilled++;
+		if(protagonist.dead){
+			this.protagonistsKilled++;
+		}
 		this.protagonistPool.unshift(protagonist);
 		this.addProtagonist();
 		if(this.protagonistsKilled === GAME_PROTAGONISTS_TO_KILL){

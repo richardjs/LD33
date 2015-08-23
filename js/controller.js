@@ -16,6 +16,7 @@ function Controller(){
 				break;
 			case 32:
 			case 38:
+			case 87:
 				this.buttons['jump'] = true;
 				break;
 		}
@@ -34,6 +35,7 @@ function Controller(){
 				break;
 			case 32:
 			case 38:
+			case 87:
 				this.buttons['jump'] = false;
 				break;
 		}
