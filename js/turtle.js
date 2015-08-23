@@ -71,4 +71,6 @@ Turtle.prototype.kill = function() {
 	this.collideBricks = true;
 	this.pos = this.getStartPos();
 	this.velocity = {x: 0, y: 0};
+	world.score -= GAME_TURTLE_DEATH_PENALTY;
+	world.killChain = 0;
 }

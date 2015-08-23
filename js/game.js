@@ -9,6 +9,11 @@ var GRAVITY = 800;
 var GAME_PROTAGONISTS = 5;
 var GAME_PROTAGONISTS_TO_KILL = 100;
 
+var GAME_PROTAGONIST_KILL_POINTS = 1000
+var GAME_PROTAGONIST_KILL_CHAIN_BONUS = 500;
+var GAME_PROTAGONIST_FINISH_PENALTY = 100;
+var GAME_TURTLE_DEATH_PENALTY = 500;
+
 window.addEventListener('load', function(){
 	window.canvas = document.createElement('canvas');
 	document.body.appendChild(canvas);
@@ -54,6 +59,8 @@ window.addEventListener('load', function(){
 	world.entities = [];
 	world.protagonistSuccesses = 0;
 	world.protagonistFails = 0;
+	world.score = 0;
+	world.killChain = 0;
 
 	window.controller = new Controller();
 
@@ -89,11 +96,14 @@ window.addEventListener('load', function(){
 		);
 		*/
 
-		var protagonistsRemaining = GAME_PROTAGONISTS_TO_KILL - world.protagonistsKilled;
 		ctx.fillStyle = 'white';
 		ctx.font = '20px monospace';
 		ctx.textAlign = 'right';
-		ctx.fillText(protagonistsRemaining + ' remaining', canvas.width - 15, 30);
+
+		ctx.fillText('Score: ' + world.score, canvas.width - 15, 20);
+
+		var protagonistsRemaining = GAME_PROTAGONISTS_TO_KILL - world.protagonistsKilled;
+		ctx.fillText(protagonistsRemaining + ' remaining', canvas.width - 15, 40);
 
 		requestAnimationFrame(frame);
 	}

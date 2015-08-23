@@ -26,6 +26,9 @@ function World(){
 
 	this.protagonistSpawnDelayTimer = 0;
 	this.protagonistSpawnTimer = 0;
+
+	this.score = 0;
+	this.killChain = 0;
 }
 
 World.prototype.addBrick = function(pos){
@@ -97,6 +100,8 @@ World.prototype.update = function(delta){
 
 World.prototype.protagonistFinish = function(){
 	this.protagonistSuccesses++;
+	this.score -= GAME_PROTAGONIST_FINISH_PENALTY;
+	this.killChain = 0;
 }
 
 World.prototype.protagonistKill = function(protagonist){
@@ -109,7 +114,7 @@ World.prototype.protagonistKill = function(protagonist){
 		this.protagonistPool.unshift(protagonist);
 		this.addProtagonist();
 		if(this.protagonistsKilled === GAME_PROTAGONISTS_TO_KILL){
-			alert('You win!');
+			alert('You win! Score: ' + this.score);
 			window.location.reload();
 		}
 	}

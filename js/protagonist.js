@@ -178,6 +178,9 @@ Protagonist.prototype.die = function(){
 	this.velocity.y = -this.jumpVelocity;
 	this.image = IMAGE_PROTAGONIST_DEATH;
 	this.collideBricks = false;
+
+	world.score += GAME_PROTAGONIST_KILL_POINTS + GAME_PROTAGONIST_KILL_CHAIN_BONUS*world.killChain;
+	world.killChain++;
 }
 
 Protagonist.prototype.kill = function(){
