@@ -86,6 +86,15 @@ window.addEventListener('load', function(){
 		var delta = time - lastTime;
 		lastTime = time;
 
+		if(controller.buttons.paused){
+			ctx.fillStyle = 'white';
+			ctx.font = '20px monospace';
+			ctx.textAlign = 'center';
+			ctx.fillText('*PAUSED*', canvas.width/2, 40);
+			requestAnimationFrame(frame);
+			return;
+		}
+
 		while(delta > 50){
 			world.update(50);
 			delta -= 50;

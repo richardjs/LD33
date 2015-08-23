@@ -19,6 +19,9 @@ function Controller(){
 			case 87:
 				this.buttons['jump'] = true;
 				break;
+			case 80:
+				this.buttons.paused = !this.buttons.paused;
+				break;
 		}
 	}.bind(this));
 
