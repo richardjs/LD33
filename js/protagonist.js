@@ -108,13 +108,19 @@ Protagonist.prototype.update = function(delta){
 	}
 
 	// Collision detection
-	if(world.player){
+	if(world.player && !world.player.dead){
 		if(Math.abs(playerDistance) < this.image.width/2 + world.player.image.width/2){
 			var yDistance = Math.abs(this.pos.y - world.player.pos.y);
 			if(yDistance < this.image.height/2 + world.player.image.height/2){
 				if(!this.star){
-					this.die();
-					return;
+					if(this.pos.y + this.image.height/4 < world.player.pos.y - world.player.image.height/2
+							&& this.velocity.y > 0){
+						world.player.die();
+						this.velocity.y = -this.jumpVelocity;
+					}else{
+						this.die();
+						return;
+					}
 				}else{
 					world.player.die();
 				}
