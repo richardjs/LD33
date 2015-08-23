@@ -118,6 +118,9 @@ Protagonist.prototype.update = function(delta){
 						world.player.die();
 						this.velocity.y = -this.jumpVelocity;
 					}else{
+						if(world.player.pos.y + world.player.image.height/2 < this.pos.y && !world.player.onGround()){
+							world.player.velocity.y = -TURTLE_JUMP;
+						}
 						this.die();
 						return;
 					}

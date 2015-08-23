@@ -12,6 +12,7 @@ var IMAGE_TURTLE_WALK_RIGHT_DEAD = document.getElementById('IMAGE_TURTLE_WALK_RI
 var TURTLE_SPEED = 125;
 var TURTLE_JUMP = 350;
 var TURTLE_FALL_THRESHOLD = 1000;
+var TURTLE_INVINCIBILITY_TIME = 1500;
 
 var TURTLE_ANIMATION_INTERVAL = 100;
 
@@ -23,6 +24,7 @@ function Turtle(){
 	this.pos = this.getStartPos();
 
 	this.animationTimer = 0;
+	this.invincibilityTimer = 0;
 }
 
 Turtle.prototype = Object.create(Entity.prototype);
@@ -55,6 +57,11 @@ Turtle.prototype.update = function(delta){
 	}
 
 	Entity.prototype.update.call(this, delta);
+
+	if(this.invincibilityTimer > 0){
+		console.log('invincible');
+		this.invincibilityTimer -= delta;
+	}
 
 	// Falling death
 	if(this.pos.y - this.image.height/2 > canvas.height + TURTLE_FALL_THRESHOLD){
@@ -100,6 +107,10 @@ Turtle.prototype.update = function(delta){
 }
 
 Turtle.prototype.die = function(){
+	if(this.invincibilityTimer > 0){
+		return;
+	}
+
 	this.dead = true;
 	this.velocity.x = 0;
 	this.velocity.y = -TURTLE_JUMP;
@@ -126,6 +137,7 @@ Turtle.prototype.kill = function() {
 	this.collideBricks = true;
 	this.pos = this.getStartPos();
 	this.velocity = {x: 0, y: 0};
+	this.invincibilityTimer = TURTLE_INVINCIBILITY_TIME;
 	world.score -= GAME_TURTLE_DEATH_PENALTY;
 	world.killChain = 0;
 	this.image = IMAGE_TURTLE;
