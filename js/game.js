@@ -1,5 +1,6 @@
 'use strict';
 
+var IMAGE_START = document.getElementById('IMAGE_START');
 //var IMAGE_GENERATING = document.getElementById('IMAGE_GENERATING');
 var IMAGE_HIGHSCORES = document.getElementById('IMAGE_HIGHSCORES');
 
@@ -10,7 +11,7 @@ var GAME_HEIGHT = 20;
 var GRAVITY = 800;
 
 var GAME_PROTAGONISTS = 5;
-var GAME_PROTAGONISTS_TO_KILL = 10;
+var GAME_PROTAGONISTS_TO_KILL = 100;
 
 var GAME_PROTAGONIST_KILL_POINTS = 1000
 var GAME_PROTAGONIST_KILL_CHAIN_BONUS = 500;
@@ -32,7 +33,46 @@ window.addEventListener('load', function(){
 	
 	window.ctx = canvas.getContext('2d');
 
-	start();
+	window.controller = new Controller();
+
+	if(!localStorage.getItem('scores')){
+		localStorage.setItem('scores', JSON.stringify([
+			{name: 'Jacsn', score: 1205100},
+			{name: 'Josh', score: 587600},
+			{name: 'Brock', score: 446000},
+			{name: 'Victor', score: 305600},
+			{name: 'Richard', score: 271300},
+			{name: 'Nick', score: 226900},
+			{name: 'Stephen', score: 137000},
+		]));
+	}
+
+	var volumeControl = document.getElementById('volumeControl');
+	window.volumeSlider = document.getElementById('volumeSlider');
+	volumeControl.style.marginLeft = canvas.getBoundingClientRect().left + 'px';
+	window.addEventListener('resize', function(){
+		volumeControl.style.marginLeft = canvas.getBoundingClientRect().left + 'px';
+	});
+
+	Howler.volume(volumeSlider.value);
+	volumeControl.addEventListener('input', function(){
+		Howler.volume(volumeSlider.value);
+	});
+	volumeSlider.addEventListener('focus', function(){
+		canvas.focus();
+	});
+
+	window.music = new Howl({
+		urls: ['music/turtlerag.oog', 'music/turtlerag.m4a'],
+		loop: true
+	});
+
+	if(typeof(window.musicPlaying) === 'undefined'){
+		music.play();
+		window.musicPlaying = true;
+	}
+
+	ctx.drawImage(IMAGE_START, 0, 0);
 });
 
 function start(){
@@ -141,37 +181,59 @@ function start(){
 		if(!world.finished){
 			animationFrame = requestAnimationFrame(frame);
 		}else{
+			var scores = JSON.parse(localStorage.getItem('scores'));
+			var highScore = false;
+			if(scores.length < 10){
+				highScore = true;
+			}else{
+				for(var i = 0; i < scores.length; i++){
+					if(world.score > scores[i].score){
+						highScore = true;
+						break;
+					}
+				}
+			}
+			if(highScore){
+				var name = prompt('High score! What is your name?');
+				var added = false;
+				for(var i = 0; i < scores.length; i++){
+					if(world.score > scores[i].score){
+						scores.splice(i, 0, {name: name, score: world.score});
+						added = true;
+						break;
+					}
+				}
+				if(!added){
+					scores.push({name: name, score: world.score});
+				}
+				scores = scores.slice(0, 10);
+				localStorage.setItem('scores', JSON.stringify(scores));
+			}
 			showHighScores();
 		}
 	}
 	animationFrame = requestAnimationFrame(frame);
-
-	var volumeControl = document.getElementById('volumeControl');
-	window.volumeSlider = document.getElementById('volumeSlider');
-	volumeControl.style.marginLeft = canvas.getBoundingClientRect().left + 'px';
-	window.addEventListener('resize', function(){
-		volumeControl.style.marginLeft = canvas.getBoundingClientRect().left + 'px';
-	});
-
-	Howler.volume(volumeSlider.value);
-	volumeControl.addEventListener('input', function(){
-		Howler.volume(volumeSlider.value);
-	});
-	volumeSlider.addEventListener('focus', function(){
-		canvas.focus();
-	});
-
-	window.music = new Howl({
-		urls: ['music/turtlerag.oog', 'music/turtlerag.m4a'],
-		loop: true
-	});
-
-	if(typeof(window.musicPlaying) === 'undefined'){
-		music.play();
-		window.musicPlaying = true;
-	}
 }
 
 function showHighScores(){
 	ctx.drawImage(IMAGE_HIGHSCORES, 0, 0);
+
+	var scores = JSON.parse(localStorage.getItem('scores'));
+
+	for(var i = 0; i < scores.length; i++){
+		var score = scores[i];
+
+		ctx.fillStyle = '#558855';
+		ctx.font = '20px monospace';
+		ctx.textAlign = 'right';
+		ctx.fillText(score.score, 135, 260 + 25*i);
+		ctx.textAlign = 'left';
+		ctx.fillText(score.name, 150, 260 + 25*i);
+	}
+
+	ctx.fillStyle = '#fe0000';
+	ctx.textAlign = 'right';
+	ctx.fillText(world.score, 135, 260+25*scores.length);
+	ctx.textAlign = 'left';
+	ctx.fillText('Your score', 150, 260+25*scores.length);
 }

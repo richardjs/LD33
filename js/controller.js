@@ -25,7 +25,7 @@ function Controller(){
 				break;
 			case 13:
 				this.buttons.paused = true;
-				if(world.finished || confirm('Are you sure you want to go to a new level?')){
+				if(typeof(world) === 'undefined' || world.finished || confirm('Are you sure you want to go to a new level?')){
 					start()
 				}
 		}
