@@ -131,4 +131,7 @@ window.addEventListener('load', function(){
 	volumeControl.addEventListener('input', function(){
 		music.volume(volumeSlider.value);
 	});
+	volumeControl.addEventListener('focus', function(){
+		canvas.focus();
+	});
 });
