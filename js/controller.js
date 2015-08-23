@@ -23,9 +23,9 @@ function Controller(){
 			case 80:
 				this.buttons.paused = !this.buttons.paused;
 				break;
-			case 76:
+			case 13:
 				this.buttons.paused = true;
-				if(confirm('Are you sure you want to go to a new level?')){
+				if(world.finished || confirm('Are you sure you want to go to a new level?')){
 					start()
 				}
 		}

@@ -132,8 +132,10 @@ World.prototype.protagonistKill = function(protagonist){
 		this.protagonistPool.unshift(protagonist);
 		this.addProtagonist();
 		if(this.protagonistsKilled === GAME_PROTAGONISTS_TO_KILL){
-			alert('You win! Score: ' + this.score);
-			window.location.reload();
+			setTimeout(function(){
+				this.finished = true;
+			}.bind(this), 3000);
+			//alert('You win! Score: ' + this.score);
 		}
 	}
 }

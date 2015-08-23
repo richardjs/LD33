@@ -1,5 +1,6 @@
 'use strict';
 
+//var IMAGE_GENERATING = document.getElementById('IMAGE_GENERATING');
 var IMAGE_HIGHSCORES = document.getElementById('IMAGE_HIGHSCORES');
 
 var GAME_TILE_SIZE = 30;
@@ -9,7 +10,7 @@ var GAME_HEIGHT = 20;
 var GRAVITY = 800;
 
 var GAME_PROTAGONISTS = 5;
-var GAME_PROTAGONISTS_TO_KILL = 100;
+var GAME_PROTAGONISTS_TO_KILL = 10;
 
 var GAME_PROTAGONIST_KILL_POINTS = 1000
 var GAME_PROTAGONIST_KILL_CHAIN_BONUS = 500;
@@ -35,6 +36,8 @@ window.addEventListener('load', function(){
 });
 
 function start(){
+	//ctx.drawImage(IMAGE_GENERATING, 0, 0);
+
 	var iterations = 0;
 	do{
 		if(typeof(animationFrame) !== 'undefined'){
@@ -135,7 +138,11 @@ function start(){
 		var protagonistsRemaining = GAME_PROTAGONISTS_TO_KILL - world.protagonistsKilled;
 		ctx.fillText(protagonistsRemaining + ' remaining', canvas.width - 15, 40);
 		
-		animationFrame = requestAnimationFrame(frame);
+		if(!world.finished){
+			animationFrame = requestAnimationFrame(frame);
+		}else{
+			showHighScores();
+		}
 	}
 	animationFrame = requestAnimationFrame(frame);
 
@@ -163,4 +170,8 @@ function start(){
 		music.play();
 		window.musicPlaying = true;
 	}
+}
+
+function showHighScores(){
+	ctx.drawImage(IMAGE_HIGHSCORES, 0, 0);
 }
