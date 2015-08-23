@@ -53,9 +53,10 @@ Entity.prototype.update = function(delta){
 }
 
 Entity.prototype.onGround = function(){
-	var tileX = Math.floor(this.pos.x/GAME_TILE_SIZE);
+	var leftTileX = Math.floor((this.pos.x - this.image.width/2 + 1) / GAME_TILE_SIZE);
+	var rightTileX = Math.floor((this.pos.x + this.image.width/2 - 1) / GAME_TILE_SIZE);
 	var testY = Math.floor((this.pos.y + this.image.height/2 + 1)/GAME_TILE_SIZE);
-	return world.brickAt(tileX, testY);
+	return world.brickAt(leftTileX, testY) || world.brickAt(rightTileX, testY);
 }
 
 Entity.prototype.jump = function(velocity){
