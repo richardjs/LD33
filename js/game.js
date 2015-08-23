@@ -15,23 +15,16 @@ var GAME_PROTAGONIST_FINISH_PENALTY = 100;
 var GAME_TURTLE_DEATH_PENALTY = 500;
 
 window.addEventListener('load', function(){
-	window.music = new Howl({
-		urls: ['music/turtlerag.oog', 'music/turtlerag.m4a'],
-		loop: true,
-		volume: .5
-	});
-
-	window.canvas = document.createElement('canvas');
-	document.body.appendChild(canvas);
+	window.canvas = document.getElementById('screen');
 
 	canvas.width = GAME_WIDTH*GAME_TILE_SIZE;
 	canvas.height = GAME_HEIGHT*GAME_TILE_SIZE;
 
 	var margin = (window.innerHeight - canvas.height) / 3;
-	canvas.style.margin = margin + "px auto";
+		canvas.style.margin = margin + "px auto 10px auto";
 	window.addEventListener('resize', function(){
 		var margin = (window.innerHeight - canvas.height) / 3;
-		canvas.style.margin = margin + "px auto";
+		canvas.style.margin = margin + "px auto 10px auto";
 	});
 	
 	window.ctx = canvas.getContext('2d');
@@ -81,8 +74,6 @@ window.addEventListener('load', function(){
 	world.entities.push(world.player);
 	world.addProtagonist();
 
-	music.play()
-
 	var lastTime = null;
 	function frame(time){
 		if(lastTime === null){
@@ -123,4 +114,21 @@ window.addEventListener('load', function(){
 		requestAnimationFrame(frame);
 	}
 	requestAnimationFrame(frame);
+
+	var volumeControl = document.getElementById('volumeControl');
+	volumeControl.style.marginLeft = canvas.getBoundingClientRect().left + 'px';
+	window.addEventListener('resize', function(){
+		volumeControl.style.marginLeft = canvas.getBoundingClientRect().left + 'px';
+	});
+
+	window.music = new Howl({
+		urls: ['music/turtlerag.oog', 'music/turtlerag.m4a'],
+		loop: true,
+		volume: volumeSlider.value
+	});
+	music.play();
+
+	volumeControl.addEventListener('input', function(){
+		music.volume(volumeSlider.value);
+	});
 });

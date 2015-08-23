@@ -16,7 +16,15 @@
 			img{
 				display: none;
 			}
+			#volumeControl{
+				color: #334433;
+				font: 16pt arial;
+			}
+			#volumeControl input{
+				width: 100px;
+			}
 		</style>
+		<link rel="stylesheet" href="css/range.css">
 	</head>
 	<body>
 		<img src="img/turtle.png" id="IMAGE_TURTLE">
@@ -48,5 +56,11 @@
 		<script src="js/world.js"></script>
 		<script src="js/generator.js"></script>
 		<script src="js/game.js"></script>
+
+		<canvas id="screen">This game requires support for HTML5 &lt;canvas&gt; in your browser.</canvas>
+		<div id="volumeControl">
+			<span style="position: relative; top: -5px;">Volume:</span>
+			<input id="volumeSlider" type="range" min="0" max="1" step=".05" value=".5">
+		</div>
 	</body>
 </html>
