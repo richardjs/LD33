@@ -23,6 +23,11 @@ function Controller(){
 			case 80:
 				this.buttons.paused = !this.buttons.paused;
 				break;
+			case 76:
+				this.buttons.paused = true;
+				if(confirm('Are you sure you want to go to a new level?')){
+					start()
+				}
 		}
 	}.bind(this));
 

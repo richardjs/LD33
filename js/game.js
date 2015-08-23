@@ -37,6 +37,11 @@ window.addEventListener('load', function(){
 function start(){
 	var iterations = 0;
 	do{
+		if(typeof(animationFrame) !== 'undefined'){
+			cancelAnimationFrame(animationFrame);
+		}
+		window.animationFrame = null;
+		
 		window.world = new World();
 		generateLevel();
 
@@ -74,7 +79,11 @@ function start(){
 	world.score = 0;
 	world.killChain = 0;
 
-	window.controller = new Controller();
+	if(typeof(window.controller) === 'undefined'){
+		window.controller = new Controller();
+	}else{
+		controller.buttons = {};
+	}
 
 	world.player = new Turtle();
 	world.entities.push(world.player);
@@ -85,7 +94,7 @@ function start(){
 		if(lastTime === null){
 			var delta = time - lastTime;
 			lastTime = time
-			requestAnimationFrame(frame);
+			animationFrame = requestAnimationFrame(frame);
 			return;
 		}
 
@@ -97,7 +106,7 @@ function start(){
 			ctx.font = '20px monospace';
 			ctx.textAlign = 'center';
 			ctx.fillText('*PAUSED*', canvas.width/2, 40);
-			requestAnimationFrame(frame);
+			animationFrame = requestAnimationFrame(frame);
 			return;
 		}
 
@@ -125,10 +134,10 @@ function start(){
 
 		var protagonistsRemaining = GAME_PROTAGONISTS_TO_KILL - world.protagonistsKilled;
 		ctx.fillText(protagonistsRemaining + ' remaining', canvas.width - 15, 40);
-
-		requestAnimationFrame(frame);
+		
+		animationFrame = requestAnimationFrame(frame);
 	}
-	requestAnimationFrame(frame);
+	animationFrame = requestAnimationFrame(frame);
 
 	var volumeControl = document.getElementById('volumeControl');
 	window.volumeSlider = document.getElementById('volumeSlider');
@@ -149,5 +158,9 @@ function start(){
 		urls: ['music/turtlerag.oog', 'music/turtlerag.m4a'],
 		loop: true
 	});
-	music.play();
+
+	if(typeof(window.musicPlaying) === 'undefined'){
+		music.play();
+		window.musicPlaying = true;
+	}
 }
