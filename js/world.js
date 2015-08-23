@@ -4,6 +4,7 @@ var IMAGE_BRICK = document.getElementById('IMAGE_BRICK');
 var IMAGE_BACKGROUND1 = document.getElementById('IMAGE_BACKGROUND1');
 var IMAGE_BACKGROUND2 = document.getElementById('IMAGE_BACKGROUND2');
 var IMAGE_BACKGROUND3 = document.getElementById('IMAGE_BACKGROUND3');
+var IMAGE_BACKGROUND4 = document.getElementById('IMAGE_BACKGROUND4');
 
 var WORLD_PROTAGONIST_SPAWN_DELAY = 20000;
 var WORLD_PROTAGONIST_MIN_SPAWN_INTERVAL = 5000;
@@ -38,7 +39,10 @@ function World(){
 		IMAGE_BACKGROUND1,
 		IMAGE_BACKGROUND2,
 		IMAGE_BACKGROUND3,
-		IMAGE_BACKGROUND3
+		IMAGE_BACKGROUND3,
+		IMAGE_BACKGROUND4,
+		IMAGE_BACKGROUND4,
+		IMAGE_BACKGROUND4,
 	];
 	this.background = backgrounds[Math.floor(Math.random()*backgrounds.length)];
 }
