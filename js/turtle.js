@@ -27,27 +27,28 @@ Turtle.prototype.getStartPos = function(){
 
 Turtle.prototype.update = function(delta){
 	// Move left and right
-	this.velocity.x = 0;
-	if(controller.buttons.left){
-		this.velocity.x = -TURTLE_SPEED;
-		this.flipImage = false;
-	}
-	if(controller.buttons.right){
-		this.velocity.x = TURTLE_SPEED;
-		this.flipImage = true;
-	}
+	if(!this.dead){
+		this.velocity.x = 0;
+		if(controller.buttons.left){
+			this.velocity.x = -TURTLE_SPEED;
+			this.flipImage = false;
+		}
+		if(controller.buttons.right){
+			this.velocity.x = TURTLE_SPEED;
+			this.flipImage = true;
+		}
 
-	// Jump
-	if(controller.buttons.jump){
-		this.jump(TURTLE_JUMP);
+		// Jump
+		if(controller.buttons.jump){
+			this.jump(TURTLE_JUMP);
+		}
 	}
 
 	Entity.prototype.update.call(this, delta);
 
 	// Falling death
 	if(this.pos.y - this.image.height/2 > canvas.height + TURTLE_FALL_THRESHOLD){
-		this.pos = this.getStartPos();	
-		this.velocity = {x: 0, y: 0};
+		this.kill();
 	}
 
 	if(this.pos.x - this.image.width/2 < 0){
@@ -58,6 +59,16 @@ Turtle.prototype.update = function(delta){
 	}
 }
 
+Turtle.prototype.die = function(){
+	this.dead = true;
+	this.velocity.x = 0;
+	this.velocity.y = -TURTLE_JUMP;
+	this.collideBricks = false;
+}
+
 Turtle.prototype.kill = function() {
+	this.dead = false;
+	this.collideBricks = true;
 	this.pos = this.getStartPos();
+	this.velocity = {x: 0, y: 0};
 }

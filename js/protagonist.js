@@ -116,7 +116,7 @@ Protagonist.prototype.update = function(delta){
 					this.die();
 					return;
 				}else{
-					world.player.kill();
+					world.player.die();
 				}
 			}
 		}
@@ -172,7 +172,6 @@ Protagonist.prototype.die = function(){
 	this.velocity.y = -this.jumpVelocity;
 	this.image = IMAGE_PROTAGONIST_DEATH;
 	this.collideBricks = false;
-	console.log('dead');
 }
 
 Protagonist.prototype.kill = function(){
