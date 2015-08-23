@@ -1,6 +1,7 @@
 'use strict';
 
 var IMAGE_BRICK = document.getElementById('IMAGE_BRICK');
+var IMAGE_BACKGROUND1 = document.getElementById('IMAGE_BACKGROUND1');
 
 var WORLD_PROTAGONIST_SPAWN_DELAY = 20000;
 var WORLD_PROTAGONIST_MIN_SPAWN_INTERVAL = 5000;
@@ -61,6 +62,9 @@ World.prototype.getGroundAt = function(x){
 }
 
 World.prototype.addProtagonist = function(){
+	if(this.entities.length - 1 + this.protagonistsKilled >= GAME_PROTAGONISTS_TO_KILL){
+		return;
+	}
 	if(this.protagonistPool.length){
 		this.entities.push(this.protagonistPool.pop());
 	}
@@ -101,9 +105,9 @@ World.prototype.protagonistKill = function(protagonist){
 	if(!this.protagonistPool){
 		this.entities.push(new Protagonist());
 	}else{
+		this.protagonistsKilled++;
 		this.protagonistPool.unshift(protagonist);
 		this.addProtagonist();
-		this.protagonistsKilled++;
 		if(this.protagonistsKilled === GAME_PROTAGONISTS_TO_KILL){
 			alert('You win!');
 			window.location.reload();
@@ -119,8 +123,10 @@ World.prototype.renderBricks = function(){
 }
 
 World.prototype.render = function(){
-	ctx.fillStyle = '#5555ff';
-	ctx.fillRect(0, 0, canvas.width, canvas.height);
+//	ctx.fillStyle = '#5555ff';
+//	ctx.fillRect(0, 0, canvas.width, canvas.height);
+	ctx.drawImage(IMAGE_BACKGROUND1, 0, 0);
+
 	this.renderBricks();
 
 	var stars = [];
