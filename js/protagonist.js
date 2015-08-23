@@ -4,6 +4,7 @@ var IMAGE_PROTAGONIST = document.getElementById('IMAGE_PROTAGONIST');
 var IMAGE_PROTAGONIST_WALK = document.getElementById('IMAGE_PROTAGONIST_WALK');
 var IMAGE_PROTAGONIST_STAR = document.getElementById('IMAGE_PROTAGONIST_STAR');
 var IMAGE_PROTAGONIST_WALK_STAR = document.getElementById('IMAGE_PROTAGONIST_WALK_STAR');
+var IMAGE_PROTAGONIST_DEATH = document.getElementById('IMAGE_PROTAGONIST_DEATH');
 
 var PROTAGONIST_VELOCITY_MIN = 50;
 var PROTAGONIST_VELOCITY_MAX = 225;
@@ -57,15 +58,29 @@ Protagonist.prototype.reset = function(){
 		this.star = true;
 		this.starFlashTimer = 0;
 	}
+
+	this.dead = false;
+	this.collideBricks = true;
 }
 
 Protagonist.prototype.update = function(delta){
-	this.velocity.x = this.moveSpeed;
+	if(!this.dead){
+		this.velocity.x = this.moveSpeed;
+	}
 	if(this.star){
 		this.velocity.x += PROTAGONIST_STAR_BOOST;
 	}
 
 	Entity.prototype.update.call(this, delta);
+
+	// Falling death
+	if(this.pos.y - this.image.height/2 > canvas.height){
+		this.kill();
+	}
+
+	if(this.dead){
+		return;
+	}
 
 	// Jumping
 
@@ -98,17 +113,13 @@ Protagonist.prototype.update = function(delta){
 			var yDistance = Math.abs(this.pos.y - world.player.pos.y);
 			if(yDistance < this.image.height/2 + world.player.image.height/2){
 				if(!this.star){
-					this.kill();
+					this.die();
+					return;
 				}else{
 					world.player.kill();
 				}
 			}
 		}
-	}
-
-	// Falling death
-	if(this.pos.y - this.image.height/2 > canvas.height){
-		this.kill();
 	}
 
 	// Stuck Death
@@ -153,6 +164,15 @@ Protagonist.prototype.update = function(delta){
 		this.starFlashTimer += 2*PROTAGONIST_STAR_FLASH_INTERVAL;
 	}
 	this.starFlashTimer -= delta;
+}
+
+Protagonist.prototype.die = function(){
+	this.dead = true;
+	this.velocity.x = 0;
+	this.velocity.y = -this.jumpVelocity;
+	this.image = IMAGE_PROTAGONIST_DEATH;
+	this.collideBricks = false;
+	console.log('dead');
 }
 
 Protagonist.prototype.kill = function(){

@@ -9,7 +9,7 @@ var TURTLE_FALL_THRESHOLD = 1000;
 function Turtle(){
 	this.flipImage = false;
 	Entity.call(this, {
-		image: IMAGE_TURTLE
+		image: IMAGE_TURTLE,
 	});
 	this.pos = this.getStartPos();
 }
