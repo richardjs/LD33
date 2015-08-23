@@ -140,7 +140,8 @@ window.addEventListener('load', function(){
 	volumeControl.addEventListener('input', function(){
 		music.volume(volumeSlider.value);
 	});
-	volumeControl.addEventListener('focus', function(){
+	volumeSlider.addEventListener('focus', function(){
+		volumeSlider.blur();
 		canvas.focus();
 	});
 });
