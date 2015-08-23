@@ -21,6 +21,7 @@ function World(){
 
 	this.protagonistSuccesses = 0;
 	this.protagonistFails = 0;
+	this.protagonistsKilled = 0;
 
 	this.protagonistSpawnDelayTimer = 0;
 	this.protagonistSpawnTimer = 0;
@@ -102,6 +103,11 @@ World.prototype.protagonistKill = function(protagonist){
 	}else{
 		this.protagonistPool.unshift(protagonist);
 		this.addProtagonist();
+		this.protagonistsKilled++;
+		if(this.protagonistsKilled === GAME_PROTAGONISTS_TO_KILL){
+			alert('You win!');
+			window.location.reload();
+		}
 	}
 }
 

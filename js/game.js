@@ -7,6 +7,7 @@ var GAME_HEIGHT = 20;
 var GRAVITY = 800;
 
 var GAME_PROTAGONISTS = 5;
+var GAME_PROTAGONISTS_TO_KILL = 100;
 
 window.addEventListener('load', function(){
 	window.canvas = document.createElement('canvas');
@@ -79,12 +80,20 @@ window.addEventListener('load', function(){
 		world.update(delta);
 		world.render();
 
+		/*
 		ctx.fillStyle = 'black';
 		ctx.font = '30pt veranda';
 		ctx.fillText(
 			world.protagonistSuccesses / (world.protagonistSuccesses+world.protagonistFails),
 			10, 30
 		);
+		*/
+
+		var protagonistsRemaining = GAME_PROTAGONISTS_TO_KILL - world.protagonistsKilled;
+		ctx.fillStyle = 'white';
+		ctx.font = '20px monospace';
+		ctx.textAlign = 'right';
+		ctx.fillText(protagonistsRemaining + ' remaining', canvas.width - 15, 30);
 
 		requestAnimationFrame(frame);
 	}
