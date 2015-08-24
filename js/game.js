@@ -41,7 +41,7 @@ window.addEventListener('load', function(){
 		localStorage.setItem('scores', JSON.stringify([
 			{name: 'Jacsn', score: 1275900},
 			{name: 'Josh', score: 587600},
-			{name: 'Brock', score: 446000},
+			{name: 'Brock', score: 502200},
 			{name: 'Victor', score: 305600},
 			{name: 'Richard', score: 271300},
 			{name: 'Garrett', score: 260000},
