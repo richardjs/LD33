@@ -18,6 +18,7 @@ function Controller(){
 			case 32:
 			case 38:
 			case 87:
+			case 90:
 				this.buttons['jump'] = true;
 				break;
 			case 80:
@@ -25,7 +26,10 @@ function Controller(){
 				break;
 			case 13:
 				this.buttons.paused = true;
-				if(typeof(world) === 'undefined' || world.finished || confirm('Are you sure you want to go to a new level?')){
+				if(!window.shownInstructions){
+					showInstructions();
+					window.shownInstructions = true;
+				}else if(typeof(world) === 'undefined' || world.finished || confirm('Are you sure you want to go to a new level?')){
 					start()
 				}
 		}
@@ -45,6 +49,7 @@ function Controller(){
 			case 32:
 			case 38:
 			case 87:
+			case 90:
 				this.buttons['jump'] = false;
 				break;
 		}

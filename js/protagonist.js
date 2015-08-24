@@ -184,6 +184,8 @@ Protagonist.prototype.die = function(){
 
 	world.score += GAME_PROTAGONIST_KILL_POINTS + GAME_PROTAGONIST_KILL_CHAIN_BONUS*world.killChain;
 	world.killChain++;
+
+	wah.play();
 }
 
 Protagonist.prototype.kill = function(){

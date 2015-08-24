@@ -129,6 +129,8 @@ Turtle.prototype.die = function(){
 			this.image = IMAGE_TURTLE_WALK_RIGHT_DEAD;
 			break;
 	}
+
+	dadunk.play();
 }
 
 Turtle.prototype.kill = function() {

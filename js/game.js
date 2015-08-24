@@ -1,6 +1,7 @@
 'use strict';
 
 var IMAGE_START = document.getElementById('IMAGE_START');
+var IMAGE_INSTRUCTIONS = document.getElementById('IMAGE_INSTRUCTIONS');
 //var IMAGE_GENERATING = document.getElementById('IMAGE_GENERATING');
 var IMAGE_HIGHSCORES = document.getElementById('IMAGE_HIGHSCORES');
 
@@ -33,6 +34,7 @@ window.addEventListener('load', function(){
 	
 	window.ctx = canvas.getContext('2d');
 
+	window.shownInstructions = false;
 	window.controller = new Controller();
 
 	if(!localStorage.getItem('scores')){
@@ -42,8 +44,10 @@ window.addEventListener('load', function(){
 			{name: 'Brock', score: 446000},
 			{name: 'Victor', score: 305600},
 			{name: 'Richard', score: 271300},
+			{name: 'Garrett', score: 260000},
 			{name: 'Nick', score: 226900},
-			{name: 'Stephen', score: 137000},
+			{name: 'Stuart', score: 221500},
+			{name: 'Stephen', score: 137000}
 		]));
 	}
 
@@ -63,7 +67,7 @@ window.addEventListener('load', function(){
 	});
 
 	window.music = new Howl({
-		urls: ['music/turtlerag.oog', 'music/turtlerag.m4a'],
+		urls: ['music/turtlerag.ogg', 'music/turtlerag.m4a'],
 		loop: true
 	});
 
@@ -71,6 +75,13 @@ window.addEventListener('load', function(){
 		music.play();
 		window.musicPlaying = true;
 	}
+
+	window.wah = new Howl({
+		urls: ['sfx/wah.ogg']
+	});
+	window.dadunk = new Howl({
+		urls: ['sfx/dadunk.ogg']
+	});
 
 	ctx.drawImage(IMAGE_START, 0, 0);
 });
@@ -213,6 +224,10 @@ function start(){
 		}
 	}
 	animationFrame = requestAnimationFrame(frame);
+}
+
+function showInstructions(){
+	ctx.drawImage(IMAGE_INSTRUCTIONS, 0, 0);
 }
 
 function showHighScores(){
