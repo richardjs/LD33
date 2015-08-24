@@ -39,7 +39,7 @@ window.addEventListener('load', function(){
 
 	if(!localStorage.getItem('scores')){
 		localStorage.setItem('scores', JSON.stringify([
-			{name: 'Jacsn', score: 1205100},
+			{name: 'Jacsn', score: 1275900},
 			{name: 'Josh', score: 587600},
 			{name: 'Brock', score: 446000},
 			{name: 'Victor', score: 305600},
