@@ -47,7 +47,8 @@ window.addEventListener('load', function(){
 			{name: 'Garrett', score: 260000},
 			{name: 'Nick', score: 226900},
 			{name: 'Stuart', score: 221500},
-			{name: 'Stephen', score: 137000}
+			{name: 'Stephen', score: 137000},
+			{name: 'Mareo', score: 75900}
 		]));
 	}
 
